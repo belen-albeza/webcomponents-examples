@@ -1,0 +1,84 @@
+<!doctype html>
+<head>
+    <title>Web Components - Templates</title>
+    <meta charset="utf-8">
+    <style>
+        .user {
+            display: inline-block;
+            padding: 0.5rem;
+            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <template id="user-tpl">
+        <style>
+            .wrapper {
+                display: grid;
+                grid-template-columns: auto auto;
+                grid-column-gap: 1ch;
+                align-items: center;
+
+                font-family: monospace;
+            }
+
+            img {
+                border-radius: 50%;
+                width: 2rem;
+                height: 2rem;
+            }
+        </style>
+        <span class="wrapper">
+            <img src="" alt="avatar" class="avatar">
+            <a href="#" class="username"></a>
+        </span>
+    </template>
+
+    <p>
+        <x-user class="user" username="ladybenko"></x-user>
+    </p>
+    <p>
+        <x-user class="user" username="FirefoxDevTools"></x-user>
+    </p>
+
+    <hr>
+
+    <aside>
+        <p>Try changing the <code>username</code> attribute in <code>x-user</code>
+        elements via the console or the inspector, and see what happens!
+        </p>
+        <p><img src="images/inspector-edit-attr.png" alt="Screenshot" width="384"></p>
+    </aside>
+<script>
+    window.onload = function () {
+        customElements.define('x-user', class extends HTMLElement {
+            static get observedAttributes() {
+                return ['username'];
+            }
+
+            constructor() {
+                super();
+                const template = document.querySelector('#user-tpl');
+
+                this.attachShadow({ mode: 'open' });
+                this.shadowRoot.appendChild(template.content.cloneNode(true));
+
+                this.render();
+            }
+
+            render() {
+                // update attrs
+                const img = this.shadowRoot.querySelector('.avatar');
+                const link = this.shadowRoot.querySelector('.username');
+                img.src = `https://avatars.io/twitter/${this.getAttribute('username')}/`;
+                link.href = `https://twitter.com/${this.getAttribute('username')}`;
+                link.textContent = `@${this.getAttribute('username')}`;
+            }
+
+            attributeChangedCallback(attr, oldValue, value) {
+                this.render();
+            }
+        });
+    };
+</script>
+</body>

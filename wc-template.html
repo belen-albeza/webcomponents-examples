@@ -1,0 +1,57 @@
+<!doctype html>
+<head>
+    <title>Web Components - Templates</title>
+    <style>
+        .user {
+            display: inline-block;
+            padding: 0.5rem;
+            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <template id="user-tpl">
+        <style>
+            .wrapper {
+                display: grid;
+                grid-template-columns: auto auto;
+                grid-column-gap: 1ch;
+                align-items: center;
+            }
+
+            img {
+                border-radius: 50%;
+                width: 2rem;
+                height: 2rem;
+            }
+        </style>
+        <span class="wrapper">
+            <img src="https://avatars.io/twitter/ladybenko" alt="avatar">
+            <a href="#">ladybenko</a>
+        </span>
+    </template>
+
+    <p>
+        <x-user class="user"></x-user>
+    </p>
+
+    <hr>
+
+    <aside>
+        <p>See how this appears in the inspector – look for a <code>#shadow-root</code> node.</p>
+        <p><img src="images/inspector-shadowroot.png" alt="Screenshot" width="324"></p>
+    </aside>
+<script>
+    window.onload = function () {
+        customElements.define('x-user', class extends HTMLElement {
+            constructor() {
+                super();
+                const template = document.querySelector("#user-tpl");
+
+                this.attachShadow({ mode: 'open' });
+                this.shadowRoot.appendChild(template.content.cloneNode(true));
+            }
+        });
+    };
+</script>
+</body>

@@ -1,0 +1,23 @@
+{
+  "name": "webcomponents-examples",
+  "version": "1.0.0",
+  "description": "Web Components + DevTools examples",
+  "main": "index.js",
+  "scripts": {
+    "build": "vue-cli-service build --target wc --name x-user ./XUser.vue"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/belen-albeza/webcomponents-samples.git"
+  },
+  "author": "Belén \"Benko\" Albeza",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/belen-albeza/webcomponents-samples/issues"
+  },
+  "homepage": "https://github.com/belen-albeza/webcomponents-samples#readme",
+  "dependencies": {
+    "@vue/cli-service": "^3.0.1",
+    "vue-template-compiler": "^2.5.17"
+  }
+}

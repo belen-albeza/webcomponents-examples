@@ -1,0 +1,57 @@
+<!doctype html>
+
+<head>
+    <title>Web Components Examples: Vue</title>
+    <meta charset="utf-8">
+
+    <script src="https://unpkg.com/vue@2.5.17/dist/vue.min.js"></script>
+    <script src="dist/x-user.js"></script>
+
+    <style>
+    x-user {
+        display: inline-block;
+        box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.25);
+        padding: 1rem;
+    }
+    </style>
+</head>
+<body>
+    <h1>A Web Component created with Vue</h1>
+    <p>
+        <x-user username="ladybenko">
+    </p>
+
+    <p>See how this looks like a regular Web Component in the Inspector:</p>
+    <p><img src="images/vue.png" alt="screenshot" width="927"></p>
+
+    <p>However, it was created with Vue and building it as a Web Component target:</p>
+    <pre><code>vue-cli-service build --target --name x-user XUser.vue
+    </code></pre>
+
+    <p>It looks like a regular Vue component!</p>
+
+<pre><code>&lt;template&gt;
+  &lt;span class=&quot;wrapper&quot;&gt;
+  &lt;img :src=&quot;avatarUrl&quot; alt=&quot;User avatar&quot; class=&quot;avatar&quot;&gt;
+  &lt;a :href=&quot;userUrl&quot;&gt;@{{username}}&lt;/a&gt;
+  &lt;/span&gt;
+&lt;/template&gt;
+</code></pre>
+
+<pre><code>&lt;script&gt;
+export default {
+  name: 'XUser',
+  props: ['username'],
+  computed: {
+    avatarUrl () { return `https://avatars.io/twitter/${this.username}`; },
+    userUrl () { return `https://twitter.com/${this.username}`; }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+
+    <p>Since Vue's props work as attributes in a Custom Element, you can change them in
+    the Inspector and see the component reacting to that:</p>
+
+    <p><img src="images/vue-props.png" alt="screenshot" width="397"></p>
+</body>

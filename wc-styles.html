@@ -1,0 +1,86 @@
+<!doctype <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Web Components examples: Styles</title>
+    <style>
+        .host {
+            padding: 0.5rem 1rem;
+            box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.25);
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Styles and Web Components</h1>
+
+    <article>
+        <h1>Style applied to host element</h1>
+<pre><code>.host {
+    padding: 0.5rem 1rem;
+    box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.25);
+}
+</code></pre>
+        <pre><code>&lt;x-user class="host"&gt;Ladybenko&lt;/x-user&gt;</code></pre>
+
+        <section class="output">
+            <x-user class="host">Ladybenko</x-user>
+        </section>
+    </article>
+
+    <article>
+        <h1>Styles local to the Shadow DOM</h1>
+
+        <p>We can set custom styles for the shadow DOM with a <code>&lt;style&gt;</code> tag inside the shadow root:
+<pre><code>&lt;x-user-styled&gt;
+    Ladybenko
+&lt;/x-user-styled&gt;</code></pre>
+        <section class="output">
+            <x-user-styled>Ladybenko</x-user-styled>
+        </section>
+    </article>
+    <article>
+        <h1>Style cascading</h1>
+
+        <p>Note how <code>em</code> units and properties that cascade go through the shadow DOM:</p>
+<pre><code>&lt;x-user-styled style="font-size:2em"&gt;
+    &lt;b&gt;Ladybenko&lt;/b&gt;
+&lt;/x-user-styled&gt;</code></pre>
+        <section class="output">
+            <x-user-styled style="font-size: 2em">Ladybenko</x-user-styled>
+        </section>
+
+        <p>This can be seen in the Inspector (look for <code>Inheried from x-user-styled</code> in the Rules panel):</p>
+        <p><img src="images/cascade-thru.png" alt="screenshot" width="631"/></p>
+    </article>
+
+<script>
+window.onload = function () {
+    customElements.define('x-user', class extends HTMLElement {
+        constructor () {
+            super();
+            this.attachShadow({mode: 'open'});
+            this.shadowRoot.innerHTML =
+                '<span>🐵 <slot>Anonymous</slot></span>';
+        }
+    });
+
+    customElements.define('x-user-styled', class extends HTMLElement {
+        constructor () {
+            super();
+            this.attachShadow({mode: 'open'});
+            this.shadowRoot.innerHTML = `
+                <style>
+                    .wrapper {
+                        font-family: Arial;
+                    }
+                </style>
+                <span class="wrapper">🐵 <slot>Anonymous</slot></span>`;
+        }
+    });
+};
+</script>
+</body>
+</html>

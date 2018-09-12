@@ -62,12 +62,15 @@
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
                 max-width: 20rem;
             }
+            .bio {
+                color: red;
+            }
         </style>
         <article class="wrapper">
             <slot name="user" class="user"></slot>
             <dl>
                 <dt>Bio</dt>
-                <dd><slot name="bio">Unavailable bio</slot></dd>
+                <dd><slot name="bio" class="bio">Unavailable bio</slot></dd>
             </dl>
         </article>
     </template>

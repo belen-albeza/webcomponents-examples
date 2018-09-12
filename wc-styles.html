@@ -8,8 +8,8 @@
             padding: 0.5rem 1rem;
             box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.25);
         }
-        .error {
-            color: red;
+        slot {
+            background: yellow;
         }
     </style>
 </head>
@@ -23,10 +23,10 @@
     box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.25);
 }
 </code></pre>
-        <pre><code>&lt;x-user class="host"&gt;Ladybenko&lt;/x-user&gt;</code></pre>
+        <pre><code>&lt;x-nametag class="host"&gt;&lt;/x-nametag&gt;</code></pre>
 
         <section class="output">
-            <x-user class="host">Ladybenko</x-user>
+            <x-nametag class="host"></x-nametag>
         </section>
     </article>
 
@@ -34,50 +34,78 @@
         <h1>Styles local to the Shadow DOM</h1>
 
         <p>We can set custom styles for the shadow DOM with a <code>&lt;style&gt;</code> tag inside the shadow root:
-<pre><code>&lt;x-user-styled&gt;
-    Ladybenko
-&lt;/x-user-styled&gt;</code></pre>
+<pre><code>&lt;x-fancy-nametag&gt;
+    &lt;span slot="icon"&gt;😱&lt;/span&gt;
+    &lt;span slot="name"&gt;Ladybenko&lt;/span&gt;
+&lt;/x-fancy-nametag&gt;</code></pre>
         <section class="output">
-            <x-user-styled>Ladybenko</x-user-styled>
+            <p>
+            <x-fancy-nametag>
+                <span slot="icon">😱</span>
+                <span slot="name">Ladybenko</span>
+            </x-fanct-nametag>
+            </p>
         </section>
     </article>
     <article>
         <h1>Style cascading</h1>
 
-        <p>Note how <code>em</code> units and properties that cascade go through the shadow DOM:</p>
-<pre><code>&lt;x-user-styled style="font-size:2em"&gt;
-    &lt;b&gt;Ladybenko&lt;/b&gt;
-&lt;/x-user-styled&gt;</code></pre>
+        <p>Note <code>em</code> <b>inherited properties</b> go through the shadow DOM:</p>
+<pre><code>&lt;x-fancy-nametag style="font-size:2em; color: orangered"&gt;
+    &lt;span slot="icon"&gt;🦊&lt;/span&gt;
+    &lt;span slot="name"&gt;Firefox&lt;/span&gt;
+&lt;/x-fancy-nametag&gt;</code></pre>
         <section class="output">
-            <x-user-styled style="font-size: 2em">Ladybenko</x-user-styled>
+            <p><x-fancy-nametag style="font-size: 2em; color: orangered">
+                <span slot="icon">🦊</span>
+                <span slot="name">Firefox</span>
+            </x-fancy-nametag></p>
         </section>
 
         <p>This can be seen in the Inspector (look for <code>Inheried from x-user-styled</code> in the Rules panel):</p>
-        <p><img src="images/cascade-thru.png" alt="screenshot" width="631"/></p>
+        <p><img src="images/cascade-thru.png" alt="screenshot" width="727"></p>
+    </article>
+
+    <article class="wrapper">
+        <h1>Style encapsulation</h1>
+        <p>Shadow DOM encapsulates styles so:</p>
+        <ul>
+            <li>CSS rules defined <i>inside</i> the Shadow DOM don't leak outside</li>
+            <li>We can't target Shadow DOM elements with CSS selectors that are not defined in the Shadow DOM (only inherited properties go through).</li>
+        </ul>
     </article>
 
 <script>
 window.onload = function () {
-    customElements.define('x-user', class extends HTMLElement {
+    customElements.define('x-nametag', class extends HTMLElement {
         constructor () {
             super();
             this.attachShadow({mode: 'open'});
             this.shadowRoot.innerHTML =
-                '<span>🐵 <slot>Anonymous</slot></span>';
+                `<span>
+                    <slot name="icon">🐵</slot>
+                    <slot name="name">Anonymous</slot>
+                </span>`;
         }
     });
 
-    customElements.define('x-user-styled', class extends HTMLElement {
+    customElements.define('x-fancy-nametag', class extends HTMLElement {
         constructor () {
             super();
             this.attachShadow({mode: 'open'});
             this.shadowRoot.innerHTML = `
                 <style>
                     .wrapper {
-                        font-family: Arial;
+                        font-family: monospace;
+                        padding: 0.5rem 1rem;
+                        background: #f0f0f0;
+                        box-shadow: 2px 2px 0 #000;
                     }
                 </style>
-                <span class="wrapper">🐵 <slot>Anonymous</slot></span>`;
+                <span class="wrapper">
+                    <slot name="icon">🐵</slot>
+                    <slot name="name">Anonymous</slot>
+                </span>`;
         }
     });
 };

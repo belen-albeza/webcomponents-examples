@@ -1,0 +1,86 @@
+<!doctype html>
+<head>
+    <title>Web Components rock!</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-size: 2.5em;
+            padding: 0;
+            margin: 0;
+            scroll-snap-type: y mandatory;
+            font-family: monospace;
+        }
+        p, h1, h2, h3, li {
+            margin: 0.5em 0;
+        }
+        main {
+        }
+        section {
+            height: 100vh;
+            position: relative;
+            box-sizing: border-box;
+            padding: 1em;
+            overflow: hidden;
+        }
+        nav {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            grid-column-gap: 1em;
+
+            position: absolute;
+            bottom: 1em;
+            left: 1em;
+            right: 1em;
+        }
+        .next, .back {
+            font-size: 0.8em;
+            display: block;
+        }
+        .next {
+            grid-column-start: 3;
+        }
+    </style>
+</head>
+<body>
+    <main>
+    <section id="hello">
+        <h1>Hi! I'm Belén :)</h1>
+        <p>@ladybenko</p>
+        <p>I work at Mozilla 🦊</p>
+        <nav>
+            <a href="#wc" class="next">next →</a>
+        </nav>
+    </section>
+    <section id="wc">
+        <h1>Web Components</h1>
+        <p>Do you wish the HTML5 standard had more tags? Now you can <b>create and share your own</b>!</p>
+        <ul>
+            <li>📘 <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Useful docs at the MDN</a></li>
+            <li><code>customElements.define(...)</code></li>
+            <li><code>.attachShadow()</code></li>
+            <li><code>&lt;template&gt;</code> and &lt;slot&gt;</li>
+        </ul>
+        <nav>
+            <a href="#hello" class="back">← back</a>
+            <a href="#firefox" class="next">next →</a>
+        </nav>
+    </section>
+    <section id="firefox">
+        <h1>Firefox 🧡 Web Components</h1>
+        <p>Web Components are <b>enabled by default</b> on Firefox 63</p>
+        <p><a href="https://www.mozilla.org/en-US/firefox/channel/desktop/">
+            <img src="images/devedition-icon.png" alt="Firefox Developer Edition" width="200"><img src="images/nightly-icon.png" alt="Firefox Nightly" width="200"><img src="images/beta-icon.png" alt="Firefox Beta" width="200"></a></p>
+        <nav>
+            <a href="#wc" class="back">← back</a>
+            <a href="#devtools" class="next">next →</a>
+        </nav>
+    </section>
+    <section id="devtools">
+        <h1>Let me show you how Firefox DevTools handle Web Components</h1>
+        <p><a href="index.html">https://belen-albeza.github.io/webcomponents-examples</a></p>
+        <nav>
+            <a href="#firefox" class="back">← back</a>
+        </nav>
+    </section>
+    </main>
+</body>

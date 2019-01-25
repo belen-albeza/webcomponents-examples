@@ -1,0 +1,54 @@
+<!doctype html>
+<head>
+    <title>Web Components - Simple</title>
+    <meta charset="utf-8">
+    <style>
+    .user {
+        display: inline-block;
+        padding: 0.5rem;
+        box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.25);
+    }
+    </style>
+</head>
+<body>
+    <p>
+        <x-user class="user"></x-user>
+    </p>
+
+    <hr>
+
+    <aside>
+        <p>See how this appears in the inspector - look for a <code>#shadow-root</code> node.</p>
+    </aside>
+
+<script>
+window.onload = function () {
+    customElements.define('x-user', class extends HTMLElement {
+        constructor() {
+            super();
+            const root = this.attachShadow({ mode: 'open' });
+            root.innerHTML = `
+                <style>
+                    .wrapper {
+                        display: grid;
+                        grid-template-columns: auto auto;
+                        grid-column-gap: 1ch;
+                        align-items: center;
+                        font-family: monospace;
+                    }
+                    img {
+                        width: 2rem;
+                        height: 2rem;
+                        border-radius: 50%;
+                    }
+                </style>
+                <span class="wrapper">
+                    <img src="https://avatars.io/twitter/ladybenko" alt="avatar">
+                    <a href="https://twitter.com/ladybenko">@ladybenko</a>
+                </span>`;
+
+        }
+    });
+};
+</script>
+</body>
